@@ -2,10 +2,10 @@ const database = {
 	host:"localhost",
 	user:"root",
 	password:"yinrenlei00",
-	database:"koa_test"
+	database:"things"
 }
 module.exports = {
 	database,
-	encryptoKey:"koa_test",
-	tokenSecret:"koa_test"
+	encryptoKey:"things",
+	tokenSecret:"things"
 }
