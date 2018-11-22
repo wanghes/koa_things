@@ -115,6 +115,10 @@ blockquote {
     padding: 15px 0;
     text-align:left;
 }
+.icon-time {
+    position: relative;
+    top: -1px;
+}
 
 @media screen and (max-width: 600px) {
     .wrapper {
