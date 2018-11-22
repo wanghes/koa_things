@@ -74,81 +74,97 @@ function getQueryParams(search){
     }
 
     if (location.pathname === '/list.html') {
-        $.ajax({
-            url:baseUrl + "/list",
-            type:"get",
-            headers: {
-                 'Authorization': 'Bearer '+localStorage.getItem('token')
-            },
-            success: function(res) {
-                if (res.code) {
-                    var data  = res.data;
-                    if (data && data.length) {
-                        var str = '<a href="/index.html" class="btn btn-default">回到首页</a>';
-                        data.forEach(function(item){
-                            str += '<a href="/list.html?id='+item.id+'" title="'+ item.title +'">'+item.title+'</a>'
-                        });
-                        $('#table-of-content').html(str);
+        ;(function(){
+            $.ajax({
+                url:baseUrl + "/list",
+                type:"get",
+                headers: {
+                     'Authorization': 'Bearer '+localStorage.getItem('token')
+                },
+                success: function(res) {
+                    if (res.code) {
+                        var data  = res.data;
+                        if (data && data.length) {
+                            var str = [
+                                '<div style="text-align:left; padding: 5px;">',
+                                '<button id="homeBtn" class="btn btn-primary">回到首页</button> ',
+                                '<button id="addtrack" class="btn btn-info">添加内容</button>',
+                                '</div>'
+                            ].join('');
 
-                        var searchObj = getQueryParams();
-                        if (searchObj.id) {
                             data.forEach(function(item){
-                                if (searchObj.id == item.id) {
-                                    $('.article').html(item.content);
-                                    $('#title').html(item.title);
-                                    $('.edit_box').append('<a href="/edit.html?id=' + item.id + '" class="btn btn-primary">修改</a>');
-                                    $('.edit_box').append('&nbsp;<a data-id="' + item.id + '" class="deleteId btn btn-danger">删除</a>');
-                                    $('.time').text(item.moment);
-                                }
+                                str += '<a href="/list.html?id='+item.id+'" title="'+ item.title +'">'+item.title+'</a>'
                             });
-                        } else {
-                            $('.article').html(data[0].content);
-                            $('#title').html(data[0].title);
-                            $('.edit_box').append('<a href="/edit.html?id=' + data[0].id + '" class="btn btn-primary">修改</a>');
-                            $('.edit_box').append('&nbsp;<a data-id="' + data[0].id + '" class="deleteId btn btn-danger">删除</a>');
-                            $('.time').text(data[0].moment);
-                        }
+                            $('#table-of-content').html(str);
 
-                        //执行代码高亮方法
-                        $('pre code').each(function(i, block) {
-                            hljs.highlightBlock(block);
-                        });
-                    }
-                }
-            },
-            error: function(err) {
-                if (err.status === 401) {
-                    location.href = '/login.html';
-                }
-            }
-        });
+                            var searchObj = getQueryParams();
+                            if (searchObj.id) {
+                                data.forEach(function(item){
+                                    if (searchObj.id == item.id) {
+                                        $('.article').html(item.content);
+                                        $('#title').html(item.title);
+                                        $('.edit_box').append('<a href="/edit.html?id=' + item.id + '" class="btn btn-primary">修改</a>');
+                                        $('.edit_box').append('&nbsp;<a data-id="' + item.id + '" class="deleteId btn btn-danger">删除</a>');
+                                        $('.time').text(item.moment);
+                                    }
+                                });
+                            } else {
+                                $('.article').html(data[0].content);
+                                $('#title').html(data[0].title);
+                                $('.edit_box').append('<a href="/edit.html?id=' + data[0].id + '" class="btn btn-primary">修改</a>');
+                                $('.edit_box').append('&nbsp;<a data-id="' + data[0].id + '" class="deleteId btn btn-danger">删除</a>');
+                                $('.time').text(data[0].moment);
+                            }
 
-        $(document).on('click', '.deleteId', function(){
-            var id = $(this).data('id');
-
-            if (!id) return;
-
-            var cfm = confirm("你确定要删除吗？");
-            if (cfm) {
-                $.ajax({
-                    type: "delete",
-                    url: baseUrl + "/deleteArticle/"+id,
-                    headers: {
-                         'Authorization': 'Bearer '+localStorage.getItem('token')
-                    },
-                    success: function(data){
-                        if (data.code == 1) {
-                            location.href = '/list.html';
-                        }
-                    },
-                    error: function(err) {
-                        if (err.status === 401) {
-                            //location.href = '/login.html';
+                            //执行代码高亮方法
+                            $('pre code').each(function(i, block) {
+                                hljs.highlightBlock(block);
+                            });
                         }
                     }
-                });
-            }
-        });
+                },
+                error: function(err) {
+                    if (err.status === 401) {
+                        location.href = '/login.html';
+                    }
+                }
+            });
+
+            $(document).on('click', '#addtrack', function(){
+                location.href = '/add.html';
+            });
+
+            $(document).on('click', '#homeBtn', function(){
+                location.href = '/index.html';
+            });
+
+            $(document).on('click', '.deleteId', function(){
+                var id = $(this).data('id');
+
+                if (!id) return;
+
+                var cfm = confirm("你确定要删除吗？");
+                if (cfm) {
+                    $.ajax({
+                        type: "delete",
+                        url: baseUrl + "/deleteArticle/"+id,
+                        headers: {
+                             'Authorization': 'Bearer '+localStorage.getItem('token')
+                        },
+                        success: function(data){
+                            if (data.code == 1) {
+                                location.href = '/list.html';
+                            }
+                        },
+                        error: function(err) {
+                            if (err.status === 401) {
+                                //location.href = '/login.html';
+                            }
+                        }
+                    });
+                }
+            });
+        })();
     }
 
     if (location.pathname === '/add.html') {
