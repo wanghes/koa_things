@@ -38,4 +38,5 @@ app.use(route.post('/updateArticle', router.updateArticle));
 app.use(route.delete('/deleteArticle/:id', router.deleteArticle));
 // app.use(compress()); //对资源文件进行压缩
 
-app.listen(3000, "0.0.0.0")
+//app.listen(3000, "0.0.0.0")
+app.listen(3000);
