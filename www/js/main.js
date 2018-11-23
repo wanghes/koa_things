@@ -42,7 +42,7 @@ function getQueryParams(search){
                 if (res.code) {
                     var data  = res.data;
                     if (data && data.length) {
-                        var str = '<a href="/list.html" class="btn btn-default">修改内容</a>';
+                        var str = '<div class="btn_box"><a href="/list.html" class="btn btn-default">修改内容</a></div>';
                         data.forEach(function(item){
                             str += '<a href="/index.html?id='+item.id+'" title="'+ item.title +'">'+item.title+'</a>'
                         });
@@ -86,7 +86,7 @@ function getQueryParams(search){
                         var data  = res.data;
                         if (data && data.length) {
                             var str = [
-                                '<div style="text-align:left; padding: 5px;">',
+                                '<div class="btn_box" style="">',
                                 '<button id="homeBtn" class="btn btn-primary">回到首页</button> ',
                                 '<button id="addtrack" class="btn btn-info">添加内容</button>',
                                 '</div>'
