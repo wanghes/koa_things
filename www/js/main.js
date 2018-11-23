@@ -1,4 +1,4 @@
-var baseUrl = "http://localhost:3000";
+var baseUrl = "http://123.201.156.87:3000";
 
 function getQueryParams(search){
     var search = search || window.location.search.substr(1);

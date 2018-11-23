@@ -16,8 +16,12 @@ const sleep = (time) =>{
 }
 
 
+const main = async ctx => {
+	ctx.response.body = { code: 1, data: 'ok' };
+}
+
 const auth = async (ctx, next) => {
-	if(ctx.request.path == "/insertUser" || ctx.request.path == "/articles"){ //便于插入数据
+	if(ctx.request.path == "/insertUser" || ctx.request.path == "/articles" || ctx.request.path == "/main"){ //便于插入数据
 		await next();
 		return;
 	}
@@ -180,6 +184,7 @@ const deleteArticle = async (ctx, id) => {
 module.exports = {
 	auth,
 	doLogin,
+	main,
 	insertUser,
 	list,
 	articles,

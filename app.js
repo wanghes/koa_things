@@ -27,6 +27,7 @@ app.use(koajwt({
 }).unless({ path: ['/articles']}));
 
 app.use(router.auth)
+app.use(route.post('/main', router.main));
 app.use(route.post('/doLogin', router.doLogin));
 app.use(route.post('/insertUser', router.insertUser));
 app.use(route.get('/articles',	router.articles));
