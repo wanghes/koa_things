@@ -29,7 +29,7 @@ var baseUrl = "http://mntools.xyz";
             error: function(err){
                 console.log(err);
             }
-        }
+        });
     }
 
     if (location.pathname === '/index.html' || location.pathname === '/list.html') {

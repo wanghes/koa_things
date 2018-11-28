@@ -26,6 +26,11 @@ const auth = async (ctx, next) => {
 		return;
 	}
 
+	if (ctx.url.match(/^\/getArticle/)) {
+		await next();
+		return;
+	}
+
 	if(ctx.request.path=="/doLogin"){
 		await next();
 	}else{
