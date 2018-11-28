@@ -1,17 +1,37 @@
 var baseUrl = "http://mntools.xyz";
-
-function getQueryParams(search){
-    var search = search || window.location.search.substr(1);
-    var mappers = search.split("&");
-    var map = {};
-    for(var i = 0; i < mappers.length; i++){
-        var index = mappers[i].indexOf("=");
-        map[mappers[i].substring(0,index)] = mappers[i].substring(index+1)
-    }
-    return map;
-}
-
 ;(function(){
+    function getQueryParams(search){
+        var search = search || window.location.search.substr(1);
+        var mappers = search.split("&");
+        var map = {};
+        for(var i = 0; i < mappers.length; i++){
+            var index = mappers[i].indexOf("=");
+            map[mappers[i].substring(0,index)] = mappers[i].substring(index+1)
+        }
+        return map;
+    }
+
+    function getArticle(id, cb) {
+        $.ajax({
+            url:baseUrl + "/getArticle/"+id,
+            type:"get",
+            headers: {
+                 'Authorization': 'Bearer '+localStorage.getItem('token')
+            },
+            success: function(res) {
+                if (res.code) {
+                    var data  = res.data;
+                    if (cb) {
+                        cb(data);
+                    }
+                }
+            },
+            error: function(err){
+                console.log(err);
+            }
+        }
+    }
+
     if (location.pathname === '/index.html' || location.pathname === '/list.html') {
         var tableOfContent = document.getElementById('table-of-content')
         var timer = null
@@ -30,6 +50,7 @@ function getQueryParams(search){
 
         resetTableOfContent();
     }
+
 
     if (location.pathname === '/index.html') {
         $.ajax({
@@ -50,17 +71,17 @@ function getQueryParams(search){
 
                         var searchObj = getQueryParams();
                         if (searchObj.id) {
-                            data.forEach(function(item){
-                                if (searchObj.id == item.id) {
-                                    $('.article').html(item.content);
-                                    $('#title').html(item.title);
-                                    $('.time').text(item.moment);
-                                }
+                            getArticle(searchObj.id, function(result){
+                                $('.article').html(result.content);
+                                $('#title').html(result.title);
+                                $('.time').text(result.moment);
                             });
                         } else {
-                            $('.article').html(data[0].content);
-                            $('#title').html(data[0].title);
-                            $('.time').text(data[0].moment);
+                            getArticle(data[0].id, function(result){
+                                $('.article').html(result.content);
+                                $('#title').html(result.title);
+                                $('.time').text(result.moment);
+                            });
                         }
 
                         //执行代码高亮方法
@@ -86,7 +107,7 @@ function getQueryParams(search){
                         var data  = res.data;
                         if (data && data.length) {
                             var str = [
-                                '<div class="btn_box" style="">',
+                                '<div class="btn_box">',
                                 '<button id="homeBtn" class="btn btn-primary">回到首页</button> ',
                                 '<button id="addtrack" class="btn btn-info">添加内容</button>',
                                 '</div>'
@@ -99,21 +120,21 @@ function getQueryParams(search){
 
                             var searchObj = getQueryParams();
                             if (searchObj.id) {
-                                data.forEach(function(item){
-                                    if (searchObj.id == item.id) {
-                                        $('.article').html(item.content);
-                                        $('#title').html(item.title);
-                                        $('.edit_box').append('<a href="/edit.html?id=' + item.id + '" class="btn btn-primary">修改</a>');
-                                        $('.edit_box').append('&nbsp;<a data-id="' + item.id + '" class="deleteId btn btn-danger">删除</a>');
-                                        $('.time').text(item.moment);
-                                    }
+                                getArticle(searchObj.id, function(result){
+                                    $('.article').html(result.content);
+                                    $('#title').html(result.title);
+                                    $('.edit_box').append('<a href="/edit.html?id=' + result.id + '" class="btn btn-primary">修改</a>');
+                                    $('.edit_box').append('&nbsp;<a data-id="' + result.id + '" class="deleteId btn btn-danger">删除</a>');
+                                    $('.time').text(result.moment);
                                 });
                             } else {
-                                $('.article').html(data[0].content);
-                                $('#title').html(data[0].title);
-                                $('.edit_box').append('<a href="/edit.html?id=' + data[0].id + '" class="btn btn-primary">修改</a>');
-                                $('.edit_box').append('&nbsp;<a data-id="' + data[0].id + '" class="deleteId btn btn-danger">删除</a>');
-                                $('.time').text(data[0].moment);
+                                getArticle(data[0].id, function(result){
+                                    $('.article').html(result.content);
+                                    $('#title').html(result.title);
+                                    $('.edit_box').append('<a href="/edit.html?id=' + result.id + '" class="btn btn-primary">修改</a>');
+                                    $('.edit_box').append('&nbsp;<a data-id="' + result.id + '" class="deleteId btn btn-danger">删除</a>');
+                                    $('.time').text(result.moment);
+                                });
                             }
 
                             //执行代码高亮方法

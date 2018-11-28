@@ -94,7 +94,7 @@ let findOnePost = () => {
 
 // 查询所有文章
 let findAllPost = () => {
-    let _sql = `SELECT * FROM posts order by id desc`
+    let _sql = `SELECT title,id FROM posts order by id desc`
     return query( _sql)
 }
 
