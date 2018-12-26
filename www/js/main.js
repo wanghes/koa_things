@@ -62,32 +62,45 @@ var baseUrl = "http://mntools.xyz";
             success: function(res) {
                 if (res.code) {
                     var data  = res.data;
+                    var searchObj = getQueryParams();
                     if (data && data.length) {
                         var str = '<div class="btn_box"><a href="/list.html" class="btn btn-default">修改内容</a></div>';
-                        data.forEach(function(item){
-                            str += '<a href="/index.html?id='+item.id+'" title="'+ item.title +'">'+item.title+'</a>'
+                        data.forEach(function(item, index){
+                            if (item.id == searchObj.id) {
+                                str += '<a class="active" href="/index.html?id='+item.id+'" title="'+ item.title +'">'+item.title+'</a>';
+                            } else if (!searchObj.id && index == 0) {
+                                str += '<a class="active" href="/index.html?id='+item.id+'" title="'+ item.title +'">'+item.title+'</a>';
+                            } else {
+                                str += '<a href="/index.html?id='+item.id+'" title="'+ item.title +'">'+item.title+'</a>';
+                            }
                         });
                         $('#table-of-content').html(str);
+                        $('#table-of-content').css('padding-top','0px');
+                        const topVal = $('a.active')[0].getBoundingClientRect().y;
 
-                        var searchObj = getQueryParams();
+                        $('#table-of-content')[0].scrollTop = topVal - 42;
+
                         if (searchObj.id) {
                             getArticle(searchObj.id, function(result){
                                 $('.article').html(result.content);
                                 $('#title').html(result.title);
                                 $('.time').text(result.moment);
+                                //执行代码高亮方法
+                                $('pre code').each(function(i, block) {
+                                    hljs.highlightBlock(block);
+                                });
                             });
                         } else {
                             getArticle(data[0].id, function(result){
                                 $('.article').html(result.content);
                                 $('#title').html(result.title);
                                 $('.time').text(result.moment);
+                                //执行代码高亮方法
+                                $('pre code').each(function(i, block) {
+                                    hljs.highlightBlock(block);
+                                });
                             });
                         }
-
-                        //执行代码高亮方法
-                        $('pre code').each(function(i, block) {
-                            hljs.highlightBlock(block);
-                        });
                     }
                 }
             }
@@ -97,28 +110,39 @@ var baseUrl = "http://mntools.xyz";
     if (location.pathname === '/list.html') {
         ;(function(){
             $.ajax({
-                url:baseUrl + "/list",
-                type:"get",
+                url: baseUrl + "/list",
+                type: "get",
                 headers: {
                      'Authorization': 'Bearer '+localStorage.getItem('token')
                 },
                 success: function(res) {
                     if (res.code) {
+                        var searchObj = getQueryParams();
+
                         var data  = res.data;
                         if (data && data.length) {
                             var str = [
-                                '<div class="btn_box">',
+                                '<div class="btn_box" style="display:block;">',
                                 '<button id="homeBtn" class="btn btn-primary">回到首页</button> ',
                                 '<button id="addtrack" class="btn btn-info">添加内容</button>',
                                 '</div>'
                             ].join('');
 
-                            data.forEach(function(item){
-                                str += '<a href="/list.html?id='+item.id+'" title="'+ item.title +'">'+item.title+'</a>'
+                            data.forEach(function(item, index){
+                                if (item.id == searchObj.id) {
+                                    str += '<a class="active" href="/list.html?id='+item.id+'" title="'+ item.title +'">'+item.title+'</a>';
+                                } else if (!searchObj.id && index == 0){
+                                    str += '<a class="active" href="/list.html?id='+item.id+'" title="'+ item.title +'">'+item.title+'</a>';
+                                } else {
+                                    str += '<a href="/list.html?id='+item.id+'" title="'+ item.title +'">'+item.title+'</a>'
+                                }
+
                             });
                             $('#table-of-content').html(str);
 
-                            var searchObj = getQueryParams();
+                            const topVal = $('a.active')[0].getBoundingClientRect().y;
+                            $('#table-of-content')[0].scrollTop = topVal - 42;
+
                             if (searchObj.id) {
                                 getArticle(searchObj.id, function(result){
                                     $('.article').html(result.content);
@@ -126,6 +150,10 @@ var baseUrl = "http://mntools.xyz";
                                     $('.edit_box').append('<a href="/edit.html?id=' + result.id + '" class="btn btn-primary">修改</a>');
                                     $('.edit_box').append('&nbsp;<a data-id="' + result.id + '" class="deleteId btn btn-danger">删除</a>');
                                     $('.time').text(result.moment);
+                                    //执行代码高亮方法
+                                    $('pre code').each(function(i, block) {
+                                        hljs.highlightBlock(block);
+                                    });
                                 });
                             } else {
                                 getArticle(data[0].id, function(result){
@@ -134,13 +162,12 @@ var baseUrl = "http://mntools.xyz";
                                     $('.edit_box').append('<a href="/edit.html?id=' + result.id + '" class="btn btn-primary">修改</a>');
                                     $('.edit_box').append('&nbsp;<a data-id="' + result.id + '" class="deleteId btn btn-danger">删除</a>');
                                     $('.time').text(result.moment);
+                                    //执行代码高亮方法
+                                    $('pre code').each(function(i, block) {
+                                        hljs.highlightBlock(block);
+                                    });
                                 });
                             }
-
-                            //执行代码高亮方法
-                            $('pre code').each(function(i, block) {
-                                hljs.highlightBlock(block);
-                            });
                         }
                     }
                 },
@@ -179,7 +206,7 @@ var baseUrl = "http://mntools.xyz";
                         },
                         error: function(err) {
                             if (err.status === 401) {
-                                //location.href = '/login.html';
+                                location.href = '/login.html';
                             }
                         }
                     });
@@ -331,57 +358,89 @@ var baseUrl = "http://mntools.xyz";
     }
 
     if (location.pathname === '/register.html') {
-        $(document).on('click', '#regBtn', function(){
-            var name = $('#inputEmail').val();
-            var password = $('#inputPassword').val();
-            if (!name || !password) return;
+        ;(function(){
+            function handle() {
+                var name = $('#inputEmail').val();
+                var password = $('#inputPassword').val();
+                if (!name || !password) return;
 
-            $.ajax({
-                type: "post",
-                url: baseUrl + "/insertUser",
-                data: {
-                    name:name,
-                    password: password
-                },
-                success: function(data){
-                    if (data.code==1) {
-                        location.href = "/login.html";
-                    } else {
-                        alert(data.message);
+                $.ajax({
+                    type: "post",
+                    url: baseUrl + "/insertUser",
+                    data: {
+                        name:name,
+                        password: password
+                    },
+                    success: function(data){
+                        if (data.code==1) {
+                            location.href = "/login.html";
+                        } else {
+                            alert(data.message);
+                        }
                     }
+                });
+            }
+            $(document).on('click', '#regBtn', function(){
+                handle();
+                return false;
+            });
+
+            $('#inputEmail').keyup(function(event){
+                if (event.keyCode == 13) {
+                    handle();
                 }
             });
-            return false;
-        });
+            $('#inputPassword').keyup(function(event){
+                if (event.keyCode == 13) {
+                    handle();
+                }
+            });
+        })();
     }
 
     if (location.pathname === '/login.html') {
-        $(document).on('click', '#logBtn', function(){
-            var name = $('#inputEmail').val();
-            var password = $('#inputPassword').val();
+        ;(function(){
+            function setRequestHandle() {
+                var name = $('#inputEmail').val();
+                var password = $('#inputPassword').val();
 
-            if (!name || !password) return;
+                if (!name || !password) return;
 
-            $.ajax({
-                type: "post",
-                url: baseUrl + "/doLogin",
-                data: {
-                    name:name,
-                    password: password
-                },
-                success: function(data){
-                    if (data.code==1) {
-                        console.log(data.token)
-                        window.localStorage.setItem('token',data.token);
-                        window.localStorage.setItem('user', data.user.name);
-                        location.href = "/list.html";
-                    } else {
-                        alert(data.message);
+                $.ajax({
+                    type: "post",
+                    url: baseUrl + "/doLogin",
+                    data: {
+                        name:name,
+                        password: password
+                    },
+                    success: function(data){
+                        if (data.code==1) {
+                            console.log(data.token)
+                            window.localStorage.setItem('token',data.token);
+                            window.localStorage.setItem('user', data.user.name);
+                            location.href = "/list.html";
+                        } else {
+                            alert(data.message);
+                        }
                     }
+                });
+            }
+
+            $(document).on('click', '#logBtn', function(){
+                setRequestHandle();
+                return false;
+            });
+            $('#inputEmail').keyup(function(event){
+                if (event.keyCode == 13) {
+                    setRequestHandle();
                 }
             });
-            return false;
-        });
+            $('#inputPassword').keyup(function(event){
+                if (event.keyCode == 13) {
+                    setRequestHandle();
+                }
+            });
+        })();
     }
 
 })();
