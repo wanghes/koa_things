@@ -102,7 +102,7 @@ blockquote {
 }
 
 .wrapper {
-    max-width: 600px;
+    /*max-width: 600px;*/
     margin-left: 300px;
     min-height: 100%;
     padding: 0 30px 60px 30px;
@@ -133,7 +133,9 @@ blockquote {
     top: 0px;
     width: 180px
 }
-
+.article{
+    max-width: 900px;
+}
 .float-wechat>img {
     width: 100%
 }
