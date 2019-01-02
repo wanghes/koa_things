@@ -1,4 +1,4 @@
-var baseUrl = "http://mntools.xyz";
+var baseUrl = "http://mntools.mousecloud.cn";
 ;(function(){
     function getQueryParams(search){
         var search = search || window.location.search.substr(1);
