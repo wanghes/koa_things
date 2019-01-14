@@ -19,7 +19,9 @@ const router = require("./controller/index.js");
 
 app.use(cors());
 app.use(koaBody({
-    textLimit: 10000
+    "formLimit":"10mb",
+    "jsonLimit":"10mb",
+    "textLimit":"10mb"
 }));
 
 app.use(koajwt({
