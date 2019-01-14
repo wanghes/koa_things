@@ -18,7 +18,9 @@ const app = new Koa();
 const router = require("./controller/index.js");
 
 app.use(cors());
-app.use(koaBody());
+app.use(koaBody({
+    textLimit: 10000
+}));
 
 app.use(koajwt({
     secret: config.tokenSecret,
