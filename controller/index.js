@@ -44,9 +44,9 @@ const auth = async (ctx, next) => {
 }
 
 const getToken = (name, password, id) =>{
-	return new Promise((resolve,reject) =>{
+	return new Promise((resolve, reject) =>{
 		let data = { name, password, id };
-		jwt.sign(data, config.tokenSecret,  { expiresIn: 60 * 60 }, (err, token) => { //登录token设置1一个小时过期时间
+		jwt.sign(data, config.tokenSecret,  { expiresIn: 60 * 60 * 24 }, (err, token) => { //登录token设置24小时过期时间
 			if(err) {
 				reject(err);
 			}else{
