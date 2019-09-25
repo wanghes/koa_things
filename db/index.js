@@ -77,7 +77,7 @@ let findDataByName = name =>{
 }
 // 通过文章的名字查找用户
 let findDataByUser = uid => {
-    let _sql = `SELECT * from posts where uid="${uid}" order by id desc`
+    let _sql = `SELECT title,id from posts where uid="${uid}" order by id desc`
     return query( _sql)
 }
 // 通过文章id查找

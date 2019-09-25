@@ -52,7 +52,7 @@ var baseUrl = "http://mntools.mousecloud.cn";
     }
 
 
-    if (location.pathname === '/index.html') {
+    if (location.pathname === '/index.html' || location.pathname === '/') {
         $.ajax({
             url:baseUrl + "/articles",
             type:"get",
