@@ -36,12 +36,16 @@
     window.addEventListener('DOMContentLoaded', function() {
         if ('serviceWorker' in navigator) {
             // 注册service worker
-            registerServiceWorker('./sw.js').then(function (registration) {
-                console.log(registration);
-                console.log('Service Worker 注册成功');
-            }).catch(function (err) {
-                console.log(err);
-            })
+            var sw = window.localStorage.getItem("sw");
+            if (sw && sw == 1) {
+                registerServiceWorker('./sw.js').then(function (registration) {
+                    // console.log(registration);
+                    window.localStorage.setItem("sw", 1);
+                    console.log('Service Worker 注册成功');
+                }).catch(function (err) {
+                    console.log(err);
+                });
+            }
         }
     });
 </script>
