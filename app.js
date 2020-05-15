@@ -12,12 +12,14 @@ const moment = require('moment');
 const koajwt  = require('koa-jwt');
 const compress = require('koa-compress');
 const koaBody = require('koa-body');
+const serve = require("koa-static");
 const path = require('path');
 const config = require('./config/index.js');
 const app = new Koa();
 const router = require("./controller/index.js");
 
 app.use(cors());
+app.use(serve(__dirname + "/www"));
 app.use(koaBody({
     "formLimit":"10mb",
     "jsonLimit":"10mb",
