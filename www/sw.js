@@ -7,7 +7,7 @@ var cacheFiles = [
     '/',
     './index.html',
     './js/entry.js',
-    './css/entry.css',
+    './bootstrap/css/entry.css',
     './bootstrap/img/glyphicons-halflings.png'
 ];
 
