@@ -57,13 +57,13 @@ self.addEventListener('fetch', function (e) {
                 return response;
             });
         });
-    }
-    else {
+    } else {
         // 非api请求，直接查询cache
         // 如果有cache则直接返回，否则通过fetch请求
         e.respondWith(
             caches.match(e.request).then(function (cache) {
-                return cache || fetch(e.request);
+                //return cache || fetch(e.request);
+                return cache;
             }).catch(function (err) {
                 console.log(err);
                 return fetch(e.request);
