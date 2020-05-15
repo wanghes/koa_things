@@ -1,5 +1,5 @@
-var baseUrl = "//mntools.mousecloud.cn";
-// var baseUrl = "http://mntools.mousecloud.cn";
+//var baseUrl = "//mntools.mousecloud.cn";
+var baseUrl = ".";
 ;(function(){
     function getQueryParams(search){
         var search = search || window.location.search.substr(1);
