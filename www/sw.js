@@ -5,7 +5,7 @@ var cacheName = 'appContent';
 var apiCacheName = 'apiInfo';
 var cacheFiles = [
     '/',
-    './index.html',
+    // './index.html',
     './js/entry.js',
     './bootstrap/css/entry.css',
     './bootstrap/img/glyphicons-halflings.png'
