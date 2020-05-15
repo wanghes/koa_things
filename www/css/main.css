@@ -102,12 +102,11 @@ blockquote {
 }
 
 .wrapper {
-    /*max-width: 600px;*/
     margin-left: 300px;
     min-height: 100%;
     padding: 0 30px 60px 30px;
     background-color: #fff;
-    border: 1px solid #f1f1f1；
+    border: 1px solid #f1f1f1;
     box-sizing:border-box;
 }
 .post__meta{

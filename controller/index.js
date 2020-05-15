@@ -1,7 +1,8 @@
 const redis = require('redis');
 const encrypto = require('../config/encrypto.js');
 const jwt = require('jsonwebtoken');
-const { aesEncode,aesDecode } = encrypto;
+const { aesEncode,aesDecode, genSign,
+    deSign } = encrypto;
 const config = require('../config/index.js');
 const dbModel =  require('../db/index.js')
 const moment = require('moment');
@@ -14,7 +15,7 @@ const sleep = (time) =>{
 		},time)
 	})
 }
-
+// console.log(genSign('123456'));
 
 const main = async ctx => {
 	ctx.response.body = { code: 1, data: 'ok' };
