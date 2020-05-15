@@ -37,7 +37,7 @@
         if ('serviceWorker' in navigator) {
             // 注册service worker
             var sw = window.localStorage.getItem("sw");
-            if (sw && sw == 1) {
+            if (!sw) {
                 registerServiceWorker('./sw.js').then(function (registration) {
                     // console.log(registration);
                     window.localStorage.setItem("sw", 1);
