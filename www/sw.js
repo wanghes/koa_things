@@ -38,7 +38,7 @@ self.addEventListener('activate', function (e) {
 self.addEventListener('fetch', function (e) {
     // 需要缓存的xhr请求
     var cacheRequestUrls = [
-        '/index.html?id'
+        '/test.html?id'
     ];
     console.log('现在正在请求：' + e.request.url);
 
