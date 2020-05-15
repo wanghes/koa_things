@@ -29,3 +29,19 @@
 <script src="/js/highlight.js?v=1"></script>
 <script src="/js/main.js?v=10"></script> -->
 <script src="/js/entry.js"></script>
+<script type="text/javascript"> 
+    function registerServiceWorker(file) {
+        return navigator.serviceWorker.register(file);
+    }
+    window.addEventListener('DOMContentLoaded', function() {
+        if ('serviceWorker' in navigator) {
+            // 注册service worker
+            registerServiceWorker('./sw.js').then(function (registration) {
+                console.log(registration);
+                console.log('Service Worker 注册成功');
+            }).catch(function (err) {
+                console.log(err);
+            })
+        }
+    });
+</script>
