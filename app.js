@@ -18,8 +18,10 @@ const config = require('./config/index.js');
 const app = new Koa();
 const router = require("./controller/index.js");
 
-app.use(cors());
-app.use(serve(__dirname + "/www"));
+app.use(cors({
+	allowMethods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH']
+}));
+app.use(serve(__dirname + "/public"));
 app.use(koaBody({
     "formLimit":"10mb",
     "jsonLimit":"10mb",
