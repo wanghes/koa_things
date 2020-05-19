@@ -21,7 +21,17 @@ const router = require("./controller/index.js");
 app.use(cors({
 	allowMethods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH']
 }));
+
+app.use(async (ctx, next) => {
+  	if (ctx.method == 'OPTIONS') {
+    	ctx.body = 200; 
+  	} else {
+    	await next();
+ 	}
+});
+
 app.use(serve(__dirname + "/public"));
+
 app.use(koaBody({
     "formLimit":"10mb",
     "jsonLimit":"10mb",
