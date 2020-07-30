@@ -623,6 +623,7 @@ blockquote {
 }
 .article p {
     color: #515151;
+    font-size: 15px;
 }
 .article b, .article strong {
     font-weight: bold;
