@@ -1,7 +1,7 @@
 const database = {
-	host:"localhost",
+	host:"127.0.0.1",
 	user:"root",
-	password:"yinrenlei00",
+	password:"klosdfar",
 	database:"things"
 }
 module.exports = {
