@@ -4,7 +4,8 @@
   "description": "no",
   "main": "no",
   "scripts": {
-    "start": "supervisor app.js"
+    "start": "supervisor app.js",
+    "server": "pm2 start app.js --name things"
   },
   "repository": {
     "type": "git",

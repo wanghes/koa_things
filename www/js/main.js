@@ -1,4 +1,4 @@
-var baseUrl = "//mntools.mousecloud.cn";
+var baseUrl = "//api.things.cn";
 // var baseUrl = "http://mntools.mousecloud.cn";
 ;(function(){
     function getQueryParams(search){
