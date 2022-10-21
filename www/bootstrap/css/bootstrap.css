@@ -977,11 +977,13 @@ pre {
 }
 
 code {
-  padding: 2px 4px;
-  color: #d14;
+  padding: 1px 4px;
+  color: #fff;
   white-space: nowrap;
-  background-color: #f7f7f9;
-  border: 1px solid #e1e1e8;
+  background-color: #a92b2b;
+  border: 1px solid #a92b2b;
+  border-radius: 3px;
+  margin: 0 5px;
 }
 
 pre {
@@ -1010,6 +1012,7 @@ pre code {
   white-space: pre-wrap;
   background-color: transparent;
   border: 0;
+  margin: 0;
 }
 
 .pre-scrollable {
