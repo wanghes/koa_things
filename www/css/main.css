@@ -104,7 +104,7 @@ blockquote p{
     font-size:14px !important;
 }
 .wrapper {
-    margin-left: 300px;
+    margin-left: 500px;
     min-height: 100%;
     padding: 0 30px 60px 30px;
     background-color: #fff;
@@ -450,7 +450,7 @@ blockquote p{
     position: fixed;
     top: 0px;
     background: #fff;
-    width: 300px;
+    width: 500px;
     height: 100%;
     flex-direction: column;
     overflow-y: auto;
@@ -464,7 +464,7 @@ blockquote p{
 #table-of-content .btn_box{
     display: none;
     position: fixed;
-    width: 300px;
+    width: 499px;
     top: 0;
     left: 0;
     text-align:left;
@@ -472,8 +472,9 @@ blockquote p{
      height: 42px;
      box-sizing: border-box;
      background: #fff;
-     border-bottom: 1px solid rgba(0,0,0,.2);
-     border-right: 1px solid rgba(0,0,0,.2);
+     border-bottom: 1px solid rgba(0,0,0,0);
+     box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+     border-right: 1px solid rgba(0,0,0,0);
 }
 #table-of-content .btn_box .btn-default{
     border: 1px solid #cccccc;
